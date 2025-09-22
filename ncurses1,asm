@@ -1,0 +1,273 @@
+	.file	"ncurses1.c"
+	.text
+	.globl	_random0_7
+	.def	_random0_7;	.scl	2;	.type	32;	.endef
+_random0_7:
+LFB17:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	subl	$24, %esp
+	call	_rand
+	movl	%eax, %edx
+	movl	%edx, %eax
+	sarl	$31, %eax
+	shrl	$29, %eax
+	addl	%eax, %edx
+	andl	$7, %edx
+	subl	%eax, %edx
+	movl	%edx, %eax
+	movl	%eax, -12(%ebp)
+	movl	-12(%ebp), %eax
+	leave
+	.cfi_restore 5
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+LFE17:
+	.globl	_read_guess
+	.def	_read_guess;	.scl	2;	.type	32;	.endef
+_read_guess:
+LFB18:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	subl	$40, %esp
+L4:
+	movl	_stdscr, %eax
+	movl	%eax, (%esp)
+	call	_wgetch
+	movl	%eax, -12(%ebp)
+	cmpl	$47, -12(%ebp)
+	jle	L4
+	cmpl	$55, -12(%ebp)
+	jg	L4
+	movl	-12(%ebp), %eax
+	subl	$48, %eax
+	leave
+	.cfi_restore 5
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+LFE18:
+	.globl	_print_header
+	.def	_print_header;	.scl	2;	.type	32;	.endef
+_print_header:
+LFB19:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	pushl	%ebx
+	subl	$20, %esp
+	.cfi_offset 3, -12
+	movl	$0, 4(%esp)
+	movl	$0, (%esp)
+	call	_move
+	call	_clrtoeol
+	movl	$8388608, (%esp)
+	call	_attron
+	movl	_COLS, %eax
+	movl	%eax, %edx
+	shrl	$31, %edx
+	addl	%edx, %eax
+	sarl	%eax
+	movl	%eax, %ebx
+	movl	8(%ebp), %eax
+	movl	%eax, (%esp)
+	call	_strlen
+	shrl	%eax
+	subl	%eax, %ebx
+	movl	%ebx, %eax
+	movl	%eax, %edx
+	movl	8(%ebp), %eax
+	movl	%eax, 8(%esp)
+	movl	%edx, 4(%esp)
+	movl	$0, (%esp)
+	call	_mvaddstr
+	movl	$8388608, (%esp)
+	call	_attroff
+	call	_refresh
+	nop
+	addl	$20, %esp
+	popl	%ebx
+	.cfi_restore 3
+	popl	%ebp
+	.cfi_restore 5
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+LFE19:
+	.globl	_print_status
+	.def	_print_status;	.scl	2;	.type	32;	.endef
+_print_status:
+LFB20:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	subl	$24, %esp
+	movl	_LINES, %eax
+	subl	$1, %eax
+	movl	$0, 4(%esp)
+	movl	%eax, (%esp)
+	call	_move
+	call	_clrtoeol
+	movl	$2097152, (%esp)
+	call	_attron
+	movl	_LINES, %eax
+	leal	-1(%eax), %edx
+	movl	8(%ebp), %eax
+	movl	%eax, 8(%esp)
+	movl	$0, 4(%esp)
+	movl	%edx, (%esp)
+	call	_mvaddstr
+	movl	$2097152, (%esp)
+	call	_attroff
+	call	_refresh
+	nop
+	leave
+	.cfi_restore 5
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+LFE20:
+	.def	___main;	.scl	2;	.type	32;	.endef
+	.section .rdata,"dr"
+LC0:
+	.ascii "%d\0"
+LC1:
+	.ascii "Guess the number 0-7\0"
+LC2:
+	.ascii "0 1 2 3 4 5 6 7\0"
+LC3:
+	.ascii "Make a guess...\0"
+LC4:
+	.ascii "Too low\0"
+LC5:
+	.ascii "Too high\0"
+LC6:
+	.ascii "That's right!\0"
+LC7:
+	.ascii "Press any key to quit\0"
+	.text
+	.globl	_main
+	.def	_main;	.scl	2;	.type	32;	.endef
+_main:
+LFB21:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	andl	$-16, %esp
+	subl	$32, %esp
+	call	___main
+	call	_initscr
+	call	_cbreak
+	call	_noecho
+	call	_random0_7
+	movl	%eax, 28(%esp)
+	movl	_COLS, %eax
+	leal	-1(%eax), %edx
+	movl	28(%esp), %eax
+	movl	%eax, 12(%esp)
+	movl	$LC0, 8(%esp)
+	movl	%edx, 4(%esp)
+	movl	$1, (%esp)
+	call	_mvprintw
+	movl	$LC1, (%esp)
+	call	_print_header
+	movl	_COLS, %eax
+	movl	%eax, %edx
+	shrl	$31, %edx
+	addl	%edx, %eax
+	sarl	%eax
+	subl	$7, %eax
+	movl	$LC2, 8(%esp)
+	movl	%eax, 4(%esp)
+	movl	$9, (%esp)
+	call	_mvaddstr
+	movl	$LC3, (%esp)
+	call	_print_status
+L12:
+	call	_read_guess
+	movl	%eax, 24(%esp)
+	movl	_COLS, %eax
+	movl	%eax, %edx
+	shrl	$31, %edx
+	addl	%edx, %eax
+	sarl	%eax
+	leal	-7(%eax), %edx
+	movl	24(%esp), %eax
+	addl	%eax, %eax
+	addl	%edx, %eax
+	movl	%eax, 4(%esp)
+	movl	$10, (%esp)
+	call	_move
+	movl	24(%esp), %eax
+	cmpl	28(%esp), %eax
+	jge	L9
+	movl	$91, (%esp)
+	call	_addch
+	movl	$LC4, (%esp)
+	call	_print_status
+	jmp	L10
+L9:
+	movl	24(%esp), %eax
+	cmpl	28(%esp), %eax
+	jle	L11
+	movl	$93, (%esp)
+	call	_addch
+	movl	$LC5, (%esp)
+	call	_print_status
+	jmp	L10
+L11:
+	movl	$94, (%esp)
+	call	_addch
+L10:
+	movl	24(%esp), %eax
+	cmpl	28(%esp), %eax
+	jne	L12
+	movl	$LC6, (%esp)
+	call	_print_header
+	movl	$LC7, (%esp)
+	call	_print_status
+	movl	_stdscr, %eax
+	movl	%eax, (%esp)
+	call	_wgetch
+	call	_endwin
+	movl	$0, %eax
+	leave
+	.cfi_restore 5
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+LFE21:
+	.ident	"GCC: (MinGW.org GCC-6.3.0-1) 6.3.0"
+	.def	_rand;	.scl	2;	.type	32;	.endef
+	.def	_wgetch;	.scl	2;	.type	32;	.endef
+	.def	_move;	.scl	2;	.type	32;	.endef
+	.def	_clrtoeol;	.scl	2;	.type	32;	.endef
+	.def	_attron;	.scl	2;	.type	32;	.endef
+	.def	_strlen;	.scl	2;	.type	32;	.endef
+	.def	_mvaddstr;	.scl	2;	.type	32;	.endef
+	.def	_attroff;	.scl	2;	.type	32;	.endef
+	.def	_refresh;	.scl	2;	.type	32;	.endef
+	.def	_initscr;	.scl	2;	.type	32;	.endef
+	.def	_cbreak;	.scl	2;	.type	32;	.endef
+	.def	_noecho;	.scl	2;	.type	32;	.endef
+	.def	_mvprintw;	.scl	2;	.type	32;	.endef
+	.def	_addch;	.scl	2;	.type	32;	.endef
+	.def	_endwin;	.scl	2;	.type	32;	.endef
